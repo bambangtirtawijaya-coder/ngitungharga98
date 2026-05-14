@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#01696f" />
+  <title>Kalkulator MSRP & E-Commerce</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-sm: clamp(.875rem, .8rem + .35vw, 1rem);
+      --text-base: clamp(1rem, .95rem + .25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + .75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.2rem);
+      --space-2:.5rem; --space-3:.75rem; --space-4:1rem; --space-5:1.25rem; --space-6:1.5rem; --space-8:2rem;
+      --bg:#f7f6f2; --surface:#f9f8f5; --surface-2:#fbfbf9; --border:#d4d1ca; --text:#28251d; --muted:#66645f; --primary:#01696f; --primary-2:#0c4e54; --shadow:0 12px 32px rgba(40,37,29,.09); --font:'Satoshi',system-ui,sans-serif;
+      --success:#437a22; --orange:#da7101;
+    }
+    [data-theme="dark"] { --bg:#171614; --surface:#1c1b19; --surface-2:#201f1d; --border:#393836; --text:#ece8dd; --muted:#a7a398; --primary:#4f98a3; --primary-2:#68b3be; --shadow:0 12px 32px rgba(0,0,0,.32); --success:#84bf5e; --orange:#fdab43; }
+    *{box-sizing:border-box} html{-webkit-text-size-adjust:100%} body{margin:0;min-height:100dvh;font-family:var(--font);font-size:var(--text-base);line-height:1.55;color:var(--text);background:linear-gradient(180deg,var(--bg),var(--surface));}
+    .wrap{max-width:920px;margin:0 auto;padding:env(safe-area-inset-top) var(--space-4) calc(var(--space-8) + env(safe-area-inset-bottom));}
+    .topbar{display:flex;justify-content:space-between;align-items:center;padding:var(--space-4) 0;gap:var(--space-4)}
+    .brand{display:flex;align-items:center;gap:var(--space-3);font-weight:700}.mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--primary-2));display:grid;place-items:center;color:#fff;box-shadow:var(--shadow)}
+    .theme{min-width:44px;min-height:44px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text)}
+    .hero,.card{background:rgba(255,255,255,.45);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:1.25rem;box-shadow:var(--shadow)}
+    [data-theme="dark"] .hero,[data-theme="dark"] .card{background:rgba(28,27,25,.84)}
+    .hero,.card{padding:var(--space-6)} .hero{margin-bottom:var(--space-5)}
+    h1{margin:0 0 var(--space-2);font-size:var(--text-xl);line-height:1.08} h2{margin:0 0 var(--space-4);font-size:var(--text-lg)} p{margin:0;color:var(--muted)}
+    .grid{display:grid;gap:var(--space-4)} @media(min-width:860px){.grid{grid-template-columns:1.08fr .92fr}}
+    .fields{display:grid;gap:var(--space-4)} .two{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)}
+    label{display:block;font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-2)}
+    input,select{width:100%;min-height:48px;border-radius:14px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);padding:0 var(--space-4);font-size:1rem}
+    .hint{font-size:.8rem;color:var(--muted);margin-top:.35rem}
+    .actions{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-4)}
+    button.primary,button.secondary{min-height:48px;border-radius:14px;padding:0 var(--space-5);font-weight:700;border:none} .primary{background:var(--primary);color:#fff}.secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+    .stack{display:grid;gap:var(--space-3)} .metric{padding:var(--space-4);background:var(--surface-2);border:1px solid var(--border);border-radius:14px}
+    .metric small{display:block;color:var(--muted);margin-bottom:.2rem}.metric strong{display:block;font-size:1.2rem}
+    .formula{padding:var(--space-4);background:var(--surface-2);border:1px dashed var(--border);border-radius:14px;color:var(--muted);font-size:var(--text-sm)}
+    .pillrow{display:flex;gap:var(--space-2);flex-wrap:wrap;margin-top:var(--space-4)} .pill{font-size:.78rem;padding:.45rem .7rem;border-radius:999px;border:1px solid var(--border);background:var(--surface-2);color:var(--muted)}
+    .inline-grid{display:grid;gap:var(--space-3)} @media(min-width:560px){.inline-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <div class="mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19V5h9l5 5v9H5Z"/><path d="M14 5v5h5"/><path d="M8 14h8M8 18h5"/></svg></div>
+      <div><div>Kalkulator MSRP & E-Commerce</div><div style="font-size:.82rem;color:var(--muted);font-weight:500">Bottom stockist sampai Tokped & Shopee</div></div>
+    </div>
+    <button class="theme" id="themeBtn" aria-label="Ganti tema">◐</button>
+  </div>
+
+  <section class="hero">
+    <h1>Hitung dari FOB sampai harga offline, Tokopedia, dan Shopee.</h1>
+    <p>Anda bisa pakai pengali online sebagai variabel input manual, atau pilih preset faktor berdasarkan kategori dan margin dealer seperti tabel yang Anda lampirkan.</p>
+    <div class="pillrow">
+      <span class="pill">Pajak default 13,5%</span>
+      <span class="pill">Bottom stockist = satu harga dealer</span>
+      <span class="pill">Pengali online bisa diubah manual</span>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Input</h2>
+      <div class="fields">
+        <div><label for="category">Kategori faktor preset</label><select id="category"><option>Component</option><option>Streaming HID</option><option>Webcam</option></select><div class="hint">Preset akan mengisi pengali Tokopedia dan Shopee otomatis sesuai tabel Anda.</div></div>
+        <div><label for="fob">FOB per item (USD)</label><input id="fob" type="number" step="0.01" value="34"></div>
+        <div><label for="ship">Ongkir per item (USD)</label><input id="ship" type="number" step="0.01" value="2.5"></div>
+        <div><label for="rate">Kurs USD ke rupiah</label><input id="rate" type="number" step="1" value="17300"></div>
+        <div class="two">
+          <div><label for="tax">Pajak (%)</label><input id="tax" type="number" step="0.1" value="13.5"></div>
+          <div><label for="dist">Margin distributor (%)</label><input id="dist" type="number" step="0.1" value="15"></div>
+        </div>
+        <div><label for="dealer">Margin dealer target (%)</label><select id="dealer"><option value="5">5</option><option value="10">10</option><option value="12">12</option><option value="15" selected>15</option></select></div>
+        <div class="inline-grid">
+          <div><label for="tokpedMultiplier">Pengali Bottom ke Tokopedia</label><input id="tokpedMultiplier" type="number" step="0.01" value="1.46"><div class="hint">Contoh: 1.46 berarti Bottom × 1.46.</div></div>
+          <div><label for="shopeeMultiplier">Pengali Bottom ke Shopee</label><input id="shopeeMultiplier" type="number" step="0.01" value="1.53"><div class="hint">Contoh: 1.53 berarti Bottom × 1.53.</div></div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="primary" id="calcBtn">Hitung</button>
+        <button class="secondary" id="presetBtn">Pakai preset tabel</button>
+        <button class="secondary" id="resetBtn">Reset</button>
+      </div>
+      <div class="formula" style="margin-top:1rem">Rumus inti: Bottom = ((FOB + Ongkir) × Kurs × (1 + Pajak)) / (1 - Margin Distributor). MSRP offline = Bottom / (1 - Margin Dealer). Harga e-commerce = Bottom × Pengali platform.</div>
+    </section>
+
+    <section class="card">
+      <h2>Hasil</h2>
+      <div class="stack">
+        <div class="metric"><small>Cost IDR sebelum pajak</small><strong id="baseCost">-</strong></div>
+        <div class="metric"><small>Landed cost per item</small><strong id="landed">-</strong></div>
+        <div class="metric"><small>Harga dealer bottom stockist</small><strong id="bottom">-</strong></div>
+        <div class="metric"><small>MSRP offline</small><strong id="offline">-</strong></div>
+        <div class="metric"><small>Harga Tokopedia</small><strong id="tokped">-</strong></div>
+        <div class="metric"><small>Harga Shopee</small><strong id="shopee">-</strong></div>
+        <div class="formula" id="factorNote">Preset faktor: -</div>
+        <div class="formula" id="gapNote">Catatan: -</div>
+      </div>
+    </section>
+  </div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const defaults = { category:'Webcam', fob:34, ship:2.5, rate:17300, tax:13.5, dist:15, dealer:'15', tokpedMultiplier:1.46, shopeeMultiplier:1.53 };
+const presetFactors = {
+  'Component': { '5': { tokped:1.20, shopee:1.30 }, '10': { tokped:1.25, shopee:1.35 }, '12': { tokped:1.28, shopee:1.38 }, '15': { tokped:1.32, shopee:1.42 } },
+  'Streaming HID': { '5': { tokped:1.30, shopee:1.40 }, '10': { tokped:1.35, shopee:1.45 }, '12': { tokped:1.38, shopee:1.48 }, '15': { tokped:1.43, shopee:1.53 } },
+  'Webcam': { '5': { tokped:1.33, shopee:1.40 }, '10': { tokped:1.38, shopee:1.45 }, '12': { tokped:1.41, shopee:1.48 }, '15': { tokped:1.46, shopee:1.53 } }
+};
+const inputs = ['category','fob','ship','rate','tax','dist','dealer','tokpedMultiplier','shopeeMultiplier'];
+function fmt(n){ return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n || 0); }
+function num(id){ return parseFloat($(id).value) || 0; }
+function applyPreset(){
+  const c = $('category').value;
+  const d = $('dealer').value;
+  const row = presetFactors[c]?.[d];
+  if(row){
+    $('tokpedMultiplier').value = row.tokped.toFixed(2);
+    $('shopeeMultiplier').value = row.shopee.toFixed(2);
+  }
+  calculate();
+}
+function calculate(){
+  const fob = num('fob');
+  const ship = num('ship');
+  const rate = num('rate');
+  const tax = num('tax')/100;
+  const dist = num('dist')/100;
+  const dealer = num('dealer')/100;
+  const tokpedMultiplier = num('tokpedMultiplier');
+  const shopeeMultiplier = num('shopeeMultiplier');
+  const baseCost = (fob + ship) * rate;
+  const landed = baseCost * (1 + tax);
+  const bottom = dist >= 1 ? 0 : landed / (1 - dist);
+  const offline = dealer >= 1 ? 0 : bottom / (1 - dealer);
+  const tokped = bottom * tokpedMultiplier;
+  const shopee = bottom * shopeeMultiplier;
+  $('baseCost').textContent = fmt(baseCost);
+  $('landed').textContent = fmt(landed);
+  $('bottom').textContent = fmt(bottom);
+  $('offline').textContent = fmt(offline);
+  $('tokped').textContent = fmt(tokped);
+  $('shopee').textContent = fmt(shopee);
+  $('factorNote').textContent = `Preset aktif: ${$('category').value} | margin dealer ${$('dealer').value}% | Tokopedia × ${tokpedMultiplier.toFixed(2)} | Shopee × ${shopeeMultiplier.toFixed(2)}.`;
+  $('gapNote').textContent = `Selisih terhadap bottom: Tokopedia ${fmt(tokped - bottom)}, Shopee ${fmt(shopee - bottom)}, dan ruang dealer offline ke MSRP ${fmt(offline - bottom)}.`;
+}
+$('presetBtn').addEventListener('click', applyPreset);
+$('calcBtn').addEventListener('click', calculate);
+$('resetBtn').addEventListener('click', ()=>{ for (const [k,v] of Object.entries(defaults)) $(k).value = v; calculate(); });
+inputs.forEach(id => $(id).addEventListener('input', calculate));
+$('category').addEventListener('change', applyPreset); $('dealer').addEventListener('change', applyPreset);
+let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+document.documentElement.setAttribute('data-theme', theme);
+$('themeBtn').addEventListener('click', ()=>{ theme = theme === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', theme); });
+for (const [k,v] of Object.entries(defaults)) $(k).value = v;
+calculate();
+</script>
+</body>
+</html>
